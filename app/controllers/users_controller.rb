@@ -5,21 +5,22 @@ class UsersController < ApplicationController
     render file: Rails.public_path.join("templates","SignUp.html")
   end
 
-  def index
-    render file: Rails.public_path.join("templates","LogIn.html")
-  end
-
   def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to "/users/#{@user.id}"
+    user = User.new(user_params)
+    if user.save
+      log_in(user)
+      redirect_to "/users/#{user.id}"
     else
-      render file: Rails.public_path.join("templates","SignUp.html")
+      redirect_to "/users/new"
     end
   end
 
   def show
-    render file: Rails.public_path.join("templates","UserPage.html")
+    if logged_in?
+      render file: Rails.public_path.join("templates","UserPage.html")
+    else
+      redirect_to "/users/new"
+    end
   end
 
   private

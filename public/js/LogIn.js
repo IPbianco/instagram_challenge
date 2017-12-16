@@ -9,24 +9,21 @@ $(document).ready(function() {
   function cleanFields() {
     $('#email').val('')
     $('#password').val('')
-    $('#password_confirmation').val('')
   }
 
   function getValues() {
     email = $('#email').val()
     password = $('#password').val()
-    password_confirmation = $('#password_confirmation').val()
   }
 
-  function getUserPage() {
-    $.get('/users', { user: { email: email,
-                               password: password,
-                               password_confirmation: password_confirmation }})
+  function postUserToSession() {
+    $.post('/login', { email: email, password: password })
   }
 
   $('#logInUser').click(function() {
     getValues()
-    getUserPage()
+    postUserToSession()
     cleanFields()
   })
+
 })
